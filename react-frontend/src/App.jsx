@@ -3,6 +3,7 @@ import './App.css'
 import ProductsListComponent from './components/ProductListComponent';
 import ProductDetailsComponent from './components/ProductDetailsComponent';
 import AddProductComponent from './components/AddProductComponent';
+import ProductsAdminPage from './components/Admin';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ProductsListComponent />} />
           <Route path="/products" element={<ProductsListComponent />} />
+            <Route path="/admin/products" element={<ProductsAdminPage />} />
           <Route path="/products/:id" element={<ProductDetailsComponent />} />
           <Route path="/add-product" element={<AddProductComponent />} />
         </Routes>
