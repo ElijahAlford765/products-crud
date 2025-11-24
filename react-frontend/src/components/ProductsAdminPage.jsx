@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import ProductsService from '../ProductsService';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ProductsService from '../ProductsService';
 import '../index.css';
 
 const ProductsAdminPage = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    ProductsService.getProducts().then(res => {
-      setProducts(res.data);
-      document.title = 'Admin - Products';
-    });
+    ProductsService.getProducts()
+      .then(res => setProducts(res.data))
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+    document.title = 'Admin - Products';
   }, []);
 
   const handleDelete = (id) => {
@@ -18,6 +20,9 @@ const ProductsAdminPage = () => {
       .then(() => setProducts(products.filter(p => p.id !== id)))
       .catch(err => console.error(err));
   };
+
+  if (loading) return <p className="text-center">Loading products...</p>;
+  if (!products.length) return <p className="text-center">No products available.</p>;
 
   return (
     <div>
@@ -43,11 +48,11 @@ const ProductsAdminPage = () => {
                 <td><Link to={`/products/${product.id}`}>{product.id}</Link></td>
                 <td>{product.name}</td>
                 <td>${product.price}</td>
-                <td>{product.type}</td>
+                <td>{product.type || 'N/A'}</td>
                 <td>{product.description}</td>
                 <td>
                   <button className="btn btn-danger me-2" onClick={() => handleDelete(product.id)}>Delete</button>
-                  <Link className="btn btn-warning" to={`/edit-product/${product.id}`}>Edit</Link>
+                  <Link className="btn btn-warning" to={`/add-product`}>Edit</Link>
                 </td>
               </tr>
             ))}

@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const PRODUCTS_API_BASE_URL = "/api/products";
+const PRODUCTS_API_BASE_URL = "http://localhost:3000/api/products";
 
 class ProductsService {
   getProducts() {
-    return axios.get(PRODUCTS_API_BASE_URL + "/");
+    return axios.get(`${PRODUCTS_API_BASE_URL}/`);
   }
 
   createProduct(product) {
-    return axios.post(PRODUCTS_API_BASE_URL + "/", product);
+    return axios.post(`${PRODUCTS_API_BASE_URL}/`, product);
   }
 
   getProductById(id) {
