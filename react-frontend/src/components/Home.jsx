@@ -46,11 +46,13 @@ const Home = () => {
                 <Link className="btn btn-outline-info" to={`/products/${product.id}`}>
                   View
                 </Link>
+                
               </p>
             </div>
           </article>
         ))}
       </main>
+      
     </div>
   );
 };

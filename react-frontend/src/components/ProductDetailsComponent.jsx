@@ -18,6 +18,12 @@ const ProductDetailsComponent = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
+ const handleAddToCart = () => {
+  CartService.addToCart(product.id)
+    .then(() => alert('Added to cart!'))
+    .catch(err => console.error(err));
+};
+
   if (loading) return <p className="text-center">Loading product details...</p>;
   if (error) return <p className="text-center text-danger">{error}</p>;
   if (!product) return <p className="text-center">No product found.</p>;
@@ -31,7 +37,13 @@ const ProductDetailsComponent = () => {
         <p>Price: ${product.price ?? 'N/A'}</p>
         <p>Type: {product.type || 'N/A'}</p>
         <p>Description: {product.description || 'N/A'}</p>
-        {product.image_url && <img src={product.image_url} alt={product.name} style={{ maxWidth: '300px', marginTop: '1rem' }} />}
+        {product.image_url && (
+          <img
+            src={product.image_url}
+            alt={product.name}
+            style={{ maxWidth: '300px', marginTop: '1rem' }}
+          />
+        )}
         <p>Brand: {product.brand || 'N/A'}</p>
         <p>Category: {product.category || 'N/A'}</p>
         <p>Color: {product.color || 'N/A'}</p>
@@ -40,8 +52,18 @@ const ProductDetailsComponent = () => {
       </div>
 
       <div className="card-footer text-body-secondary mt-3">
-        <Link to="/products" className="btn btn-outline-secondary me-2">Back to Products</Link>
-        <Link to="/add-product" className="btn btn-outline-primary">Add Product</Link>
+        <Link to="/products" className="btn btn-outline-secondary me-2">
+          Back to Products
+        </Link>
+        <Link to="/add-product" className="btn btn-outline-primary me-2">
+          Add Product
+        </Link>
+        <button
+          className="btn btn-success"
+          onClick={handleAddToCart}
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   );

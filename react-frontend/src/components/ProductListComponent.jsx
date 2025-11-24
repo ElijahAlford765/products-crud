@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductsService from '../ProductsService';
+import CartService from '../CartService';
 import '../index.css';
 import { Link } from 'react-router-dom';
 
@@ -7,41 +8,58 @@ const ProductsListComponent = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-
-    ProductsService.getProducts().then((res) => {
-      setProducts(res.data);
-      document.title = 'Products List';
-    });
-
-
-
+    ProductsService.getProducts()
+      .then((res) => {
+        setProducts(res.data);
+        document.title = 'Products List';
+      })
+      .catch(err => console.error(err));
   }, []);
+
+  const handleAddToCart = (productId) => {
+    CartService.addToCart(productId)
+      .then(() => alert('Product added to cart!'))
+      .catch(err => console.error(err));
+  };
 
   return (
     <div>
       <h2 className="text-center">Products List</h2>
-      <div className="row">
+      <div className="row mb-3">
         <Link to="/add-product" className="btn btn-outline-primary">Add Product</Link>
       </div>
+
       <main className="items-container">
         {products.map(product => (
           <article className="item" key={product.id}>
             <div className="text">
-              <h3>
-                {product.id}:{product.name}
-              </h3>
+              <h3>{product.id}: {product.name}</h3>
               <p>${product.price}</p>
               <p>Type: {product.type}</p>
               <p>Description: {product.description}</p>
-              <p><Link className="btn btn-outline-info" to={`/products/${product.id}`}>View</Link></p>
-              <button className="btn btn-danger" onClick={() => ProductsService.deleteProduct(product.id)
-                .then(() => setProducts(products.filter(p => p.id !== product.id)))}>Delete</button>
-
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <Link className="btn btn-outline-info" to={`/products/${product.id}`}>View</Link>
+                <button 
+                  className="btn btn-success"
+                  onClick={() => handleAddToCart(product.id)}
+                >
+                  Add to Cart
+                </button>
+                <button 
+                  className="btn btn-danger"
+                  onClick={() => ProductsService.deleteProduct(product.id)
+                    .then(() => setProducts(products.filter(p => p.id !== product.id)))
+                  }
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </article>
         ))}
       </main>
-      <h2> Products Table</h2>
+
+      <h2>Products Table</h2>
       <div className="row">
         <table className="table table-striped table-bordered">
           <thead>
@@ -59,12 +77,24 @@ const ProductsListComponent = () => {
               <tr key={product.id}>
                 <td><Link to={`/products/${product.id}`}>{product.id}</Link></td>
                 <td>{product.name}</td>
-                <td>{product.price}</td>
+                <td>${product.price}</td>
                 <td>{product.type}</td>
                 <td>{product.description}</td>
-                <td>
-                  <button className="btn btn-danger" onClick={() => ProductsService.deleteProduct(product.id)
-                    .then(() => setProducts(products.filter(p => p.id !== product.id)))}>Delete</button>
+                <td style={{ display: 'flex', gap: '5px' }}>
+                  <button 
+                    className="btn btn-success"
+                    onClick={() => handleAddToCart(product.id)}
+                  >
+                    Add to Cart
+                  </button>
+                  <button 
+                    className="btn btn-danger"
+                    onClick={() => ProductsService.deleteProduct(product.id)
+                      .then(() => setProducts(products.filter(p => p.id !== product.id)))
+                    }
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -76,4 +106,3 @@ const ProductsListComponent = () => {
 };
 
 export default ProductsListComponent;
-
