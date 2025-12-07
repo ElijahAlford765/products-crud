@@ -1,20 +1,17 @@
-"use strict";
 const express = require("express");
 const router = express.Router();
+const productController = require("../controllers/productController");
 
-const cors = require('cors');
-
-const corsOptions = {
-  //origin: 'http://localhost:5173', // react frontend URL(not necessary for same origin or production)
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true // Allow cookies and authentication headers
-};
-
-router.use(cors(corsOptions));
-const productController = require('../controllers/productController');
-
+// GET all products
 router.get("/", productController.fetchAllProducts);
+
+// GET product by ID
 router.get("/:id", productController.fetchProductById);
-router.delete("/:id", productController.removeProduct);
+
+// CREATE product
 router.post("/", productController.createProduct);
+
+// DELETE product
+router.delete("/:id", productController.deleteProduct);
+
 module.exports = router;

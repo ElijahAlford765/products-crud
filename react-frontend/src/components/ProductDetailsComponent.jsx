@@ -1,70 +1,104 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ProductsService from '../ProductsService';
+import { CartContext } from "../CartContext";
 import '../index.css';
 
 const ProductDetailsComponent = () => {
   const { id } = useParams();
+  const { addToCart } = useContext(CartContext);
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedGender, setSelectedGender] = useState(null);
+
   useEffect(() => {
-    document.title = 'Product Details';
-    setLoading(true);
     ProductsService.getProductById(id)
       .then(res => setProduct(res.data))
-      .catch(err => setError('Failed to load product.'))
+      .catch(() => setError('Failed to load product.'))
       .finally(() => setLoading(false));
   }, [id]);
 
- const handleAddToCart = () => {
-  CartService.addToCart(product.id)
-    .then(() => alert('Added to cart!'))
-    .catch(err => console.error(err));
-};
-
-  if (loading) return <p className="text-center">Loading product details...</p>;
-  if (error) return <p className="text-center text-danger">{error}</p>;
-  if (!product) return <p className="text-center">No product found.</p>;
+  if (loading) return <p>Loading product details...</p>;
+  if (error) return <p className="text-danger">{error}</p>;
+  if (!product) return <p>No product found.</p>;
 
   return (
     <div>
-      <h2 className="text-center">Product Details</h2>
+      <Link to="/products" className="btn btn-outline-secondary mt-3">
+        Back to Products
+      </Link>
+
+      <h2 className="text-center mt-3">{product.name}</h2>
 
       <div className="card-holder">
-        <h3>{product.name || 'N/A'}</h3>
-        <p>Price: ${product.price ?? 'N/A'}</p>
-        <p>Type: {product.type || 'N/A'}</p>
-        <p>Description: {product.description || 'N/A'}</p>
+        <p>Price: ${product.price}</p>
+        <p>Description: {product.description}</p>
+
         {product.image_url && (
-          <img
-            src={product.image_url}
-            alt={product.name}
-            style={{ maxWidth: '300px', marginTop: '1rem' }}
-          />
+          <img src={product.image_url} alt={product.name} className="image-box" />
         )}
-        <p>Brand: {product.brand || 'N/A'}</p>
-        <p>Category: {product.category || 'N/A'}</p>
-        <p>Color: {product.color || 'N/A'}</p>
-        <p>Stock: {product.stock ?? 0}</p>
-        <p>Sizes: {product.sizes ? product.sizes.join(', ') : 'N/A'}</p>
+
+        {/* ----- GENDER SELECTOR ----- */}
+        <h4>Select Gender</h4>
+        <div className="gender-buttons">
+          {["Men", "Women"].map((gender) => (
+            <button
+              key={gender}
+              onClick={() => setSelectedGender(gender)}
+              className={`gender-btn ${
+                selectedGender === gender ? "active" : ""
+              }`}
+            >
+              {gender}
+            </button>
+          ))}
+        </div>
+
+        {/* ----- SIZE SELECTOR ----- */}
+        <h4>Choose Size</h4>
+        <div className="size-buttons">
+          {product.sizes?.map((size) => (
+            <button
+              key={size}
+              onClick={() => setSelectedSize(size)}
+              className={`size-btn ${
+                selectedSize === size ? "active" : ""
+              }`}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+
+        <p>
+          Selected:{" "}
+          <b>
+            {selectedGender || "None"} : {selectedSize || "None"}
+          </b>
+        </p>
       </div>
 
-      <div className="card-footer text-body-secondary mt-3">
-        <Link to="/products" className="btn btn-outline-secondary me-2">
-          Back to Products
-        </Link>
-        <Link to="/add-product" className="btn btn-outline-primary me-2">
-          Add Product
-        </Link>
-        <button
-          className="btn btn-success"
-          onClick={handleAddToCart}
-        >
-          Add to Cart
-        </button>
-      </div>
+  {/* ----- ADD TO CART BUTTON ----- */}
+<button
+  className={`btn btn-success ${!selectedSize || !selectedGender ? "btn-disabled" : ""}`}
+  disabled={!selectedSize || !selectedGender}
+  onClick={() =>
+    addToCart({
+      productId: product.id,
+      selectedSize,
+      selectedGender,
+      quantity: 1
+    })
+  }
+>
+  Add to Cart
+</button>
+
+
     </div>
   );
 };

@@ -1,65 +1,57 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { CartContext } from '../CartContext';
 import { Link } from 'react-router-dom';
-import CartService from '../CartService'; // Create a service to handle API calls
+import '../index.css';
 
 const Cart = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
 
-  useEffect(() => {
-    CartService.getCartItems()
-      .then(res => setItems(res.data))
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const updateQuantity = (itemId, quantity) => {
-    CartService.updateCartItem(itemId, quantity)
-      .then(res => setItems(res.data))
-      .catch(err => console.error(err));
-  };
-
-  const removeItem = (itemId) => {
-    CartService.removeCartItem(itemId)
-      .then(res => setItems(res.data))
-      .catch(err => console.error(err));
-  };
-
-  if (loading) return <p style={{ textAlign: 'center' }}>Loading cart...</p>;
-  if (!items.length) return <p style={{ textAlign: 'center', fontSize: '1.2em', marginTop: '20px' }}>Your cart is empty.</p>;
+  if (!cartItems.length) {
+    return <p className="cart-empty">Your cart is empty.</p>;
+  }
 
   return (
-    <div>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Your Cart</h1>
-      <table style={{ width: '90%', margin: '0 auto', borderCollapse: 'collapse', textAlign: 'center' }}>
+    <div className="cart-container">
+      <h1 className="cart-title">Your Cart</h1>
+
+      <table className="cart-table">
         <thead>
-          <tr style={{ backgroundColor: '#f2f2f2' }}>
-            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Product</th>
-            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Size</th>
-            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Qty</th>
-            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Price</th>
-            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Actions</th>
+          <tr>
+            <th>Product</th>
+            <th>Gender</th>
+            <th>Size</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
-          {items.map(item => (
-            <tr key={item.cart_item_id} style={{ borderBottom: '1px solid #ddd' }}>
-              <td style={{ padding: '10px' }}>{item.product.name}</td>
-              <td style={{ padding: '10px' }}>{item.product.size || 'N/A'}</td>
-              <td style={{ padding: '10px' }}>
+          {cartItems.map(item => (
+            <tr key={item.id || item._id}>
+              <td>{item.name}</td>
+              <td>{item.gender}</td>
+              <td>{item.size}</td>
+
+              <td>
                 <input
                   type="number"
                   min="1"
                   value={item.quantity}
-                  onChange={e => updateQuantity(item.cart_item_id, parseInt(e.target.value))}
-                  style={{ width: '60px', padding: '4px' }}
+                  className="cart-qty-input"
+                  onChange={e => updateQuantity(item.cart_id || item.id, parseInt(e.target.value))}
+
                 />
               </td>
-              <td style={{ padding: '10px' }}>${item.price.toFixed(2)}</td>
-              <td style={{ padding: '10px' }}>
+
+              <td>${item.price ? Number(item.price).toFixed(2) : "0.00"}</td>
+
+
+              <td>
                 <button
-                  onClick={() => removeItem(item.cart_item_id)}
-                  style={{ padding: '4px 8px', cursor: 'pointer' }}
+                  className="cart-remove-btn"
+                  onClick={() => removeFromCart(item.cart_id)}
+
                 >
                   Remove
                 </button>
@@ -69,11 +61,8 @@ const Cart = () => {
         </tbody>
       </table>
 
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        <Link
-          to="/checkout"
-          style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', textDecoration: 'none', borderRadius: '5px', fontSize: '1.1em' }}
-        >
+      <div className="cart-checkout-container">
+        <Link to="/checkout" className="cart-checkout-btn">
           Proceed to Checkout
         </Link>
       </div>

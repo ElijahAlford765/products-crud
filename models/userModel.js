@@ -1,33 +1,48 @@
 const pool = require('../models/db');
+
+// --- GET ALL USERS ---
 async function getAllUsers() {
-    const queryText = "SELECT * FROM users";
-    const result = await pool.query(queryText);
+    const result = await pool.query("SELECT * FROM users");
     return result.rows;
 }
 
+// --- GET ONE USER BY ID ---
 async function getOneUserById(id) {
-    const queryText = "SELECT * FROM users where id= $1";
-    const values = [id];
-    const result = await pool.query(queryText, values);
+    const result = await pool.query("SELECT * FROM users WHERE id=$1", [id]);
     return result.rows[0];
 }
 
+// --- DELETE USER ---
 async function deleteUser(id) {
-    let queryText = "DELETE FROM users WHERE id =$1; ";
-    const values = [id];
-    const result = await pool.query(queryText, values);
+    const result = await pool.query("DELETE FROM users WHERE id=$1", [id]);
     return result.rowCount;
 }
 
-async function addUser(name, email, password) {
-    let queryText = "INSERT INTO users ( name, email, password) VALUES ($1, $2, $3) RETURNING *";
-    let values = [name, email, password];
-    const result = await pool.query(queryText, values);
+// --- GET USER BY EMAIL ---
+async function getUserByEmail(email) {
+    const result = await pool.query(
+        "SELECT * FROM users WHERE LOWER(TRIM(email)) = LOWER(TRIM($1)) LIMIT 1",
+        [email]
+    );
     return result.rows[0];
 }
+
+// --- ADD NEW USER ---
+async function addUser({ username, email, password_hash, firstname = null, lastname = null }) {
+    const query = `
+        INSERT INTO users (username, email, password_hash, firstname, lastname)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;
+    `;
+    const values = [username, email, password_hash, firstname, lastname];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+}
+
 module.exports = {
     getAllUsers,
     getOneUserById,
     deleteUser,
-    addUser
+    addUser,
+    getUserByEmail
 };
