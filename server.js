@@ -1,69 +1,58 @@
-const express = require("express");
-const path = require("path");
-const cors = require("cors");
-const session = require("express-session");
-const dotenv = require("dotenv");
-const pg = require("pg");
-const pgSession = require("connect-pg-simple")(session);
+// server.js
+import express from "express";
+import session from "express-session";
+import cors from "cors";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
+// Load environment variables
 dotenv.config();
 
-const app = express(); // MUST BE FIRST
+// Initialize Express
+const app = express();
 
-// ---- DATABASE POOL ----
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
+// For __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// ---- MIDDLEWARE ----
+// Middleware
+app.use(cors({
+  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true
-  })
-);
+// Express session setup
+app.use(session({
+  name: "sessionId",
+  secret: process.env.SESSION_SECRET || "supersecretkey", // Must have a secret!
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
+}));
 
-// SESSION
-app.use(
-  session({
-    store: new pgSession({ pool }),
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7
-    }
-  })
-);
+// Serve React frontend
+app.use(express.static(path.join(__dirname, "react-frontend", "dist")));
 
-// ---- ROUTES ----
-app.use("/api/sneakers", require("./routes/sneaksRoutes"));
-app.use("/api/products", require("./routes/productRoutes"));
-app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/reviews", require("./routes/reviews"));
-app.use("/api/wishlist", require("./routes/wishlist"));
-app.use("/api/cart", require("./routes/cart"));
-app.use("/api/orders", require("./routes/orders"));
-
-// ---- STATIC VITE BUILD ----
-const buildPath = path.join(process.cwd(), "react-frontend", "dist");
-app.use(express.static(buildPath));
-
-
-
-// SPA fallback route for all non-API requests
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html"));
+// Example API route
+app.get("/api/hello", (req, res) => {
+  res.json({ message: "Hello from server!" });
 });
 
-// ---- START SERVER ----
+// Catch-all to serve frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "react-frontend", "dist", "index.html"));
+});
+
+// Start server
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
