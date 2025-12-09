@@ -7,12 +7,10 @@ const session = require("express-session");
 const dotenv = require("dotenv");
 const pg = require("pg");
 const pgSession = require("connect-pg-simple")(session);
-app.use(express.static(buildPath));
-
 
 dotenv.config();
 
-const app = express();
+const app = express();   // ✅ MUST COME BEFORE using app.*
 
 // ---- DATABASE POOL ----
 const pool = new pg.Pool({
@@ -24,15 +22,13 @@ const pool = new pg.Pool({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS: must come before routes
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend
-    credentials: true,               // allow cookies
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 
-// SESSION: must come before routes
 app.use(
   session({
     store: new pgSession({
@@ -44,48 +40,32 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // set true if using HTTPS
+      secure: false,
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   })
 );
 
-app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self'; " +
-      "style-src 'self' 'unsafe-inline' https://api.fontshare.com; " +
-      "font-src 'self' https://cdn.fontshare.com; " +
-      "img-src 'self' data:; " +
-      "script-src 'self' 'unsafe-inline';"
-  );
-  next();
-});
-
-
 // ---- API ROUTES ----
-//app.use("/api/sneakers", require("./routes/sneakers"));
-app.use("/api/sneakers",require("./routes/sneaksRoutes"));
+app.use("/api/sneakers", require("./routes/sneakers"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/reviews", require("./routes/reviews"));
 app.use("/api/wishlist", require("./routes/wishlist"));
-
 app.use("/api/cart", require("./routes/cart"));
 app.use("/api/orders", require("./routes/orders"));
 
-
-
-/// ---- STATIC REACT BUILD ----
+// ---- STATIC SETUP FOR VITE BUILD ----
+// ⬇️ THE FIX IS HERE
 const buildPath = path.join(__dirname, "react-frontend", "dist");
 app.use(express.static(buildPath));
 
-// ---- SPA CATCH-ALL (KEEP LAST) ----
-app.get(/^\/(?!api).*/, (req, res) => {
+// ---- SPA FALLBACK ROUTE (KEEP LAST) ----
+app.get("*", (req, res) => {
   res.sendFile(path.join(buildPath, "index.html"));
 });
 
 // ---- START SERVER ----
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
