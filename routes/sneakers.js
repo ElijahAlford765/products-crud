@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const sneaksService = require("../services/sneaksService");
+const sneaksService = require("../react-frontend/src/services/sneaksService");
 
 // Search sneakers
 router.get("/search/:query", async (req, res) => {
