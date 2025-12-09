@@ -7,6 +7,7 @@ const session = require("express-session");
 const dotenv = require("dotenv");
 const pg = require("pg");
 const pgSession = require("connect-pg-simple")(session);
+app.use(express.static(buildPath));
 
 
 dotenv.config();
@@ -49,6 +50,24 @@ app.use(
     },
   })
 );
+
+pp.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    `
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' https://api.fontshare.com 'unsafe-inline';
+      font-src 'self' https://api.fontshare.com data:;
+      img-src 'self' data:;
+      connect-src 'self' https://api.fontshare.com;
+    `
+      .replace(/\s{2,}/g, " ")
+      .trim()
+  );
+
+  next();
+});
 
 // ---- API ROUTES ----
 //app.use("/api/sneakers", require("./routes/sneakers"));
