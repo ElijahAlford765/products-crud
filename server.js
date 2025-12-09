@@ -55,9 +55,9 @@ app.use("/api/orders", require("./routes/orders"));
 
 // ---- STATIC VITE BUILD ----
 const buildPath = path.join(process.cwd(), "react-frontend", "dist");
-
 app.use(express.static(buildPath));
 
+// ---- SPA FALLBACK (Fix for Express 5) ----
 app.get("/*", (req, res) => {
   res.sendFile(path.join(buildPath, "index.html"));
 });
