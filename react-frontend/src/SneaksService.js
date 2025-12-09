@@ -1,4 +1,4 @@
-const SneaksAPI = require("sneaks-api");
+import SneaksAPI from "sneaks-api";
 const sneaks = new SneaksAPI();
 
 module.exports = {
