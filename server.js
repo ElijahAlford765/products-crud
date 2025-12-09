@@ -77,8 +77,8 @@ app.use("/api/orders", require("./routes/orders"));
 
 
 
-// ---- STATIC REACT BUILD ----
-const buildPath = path.join(__dirname, "react-frontend", "build");
+/// ---- STATIC REACT BUILD ----
+const buildPath = path.join(__dirname, "react-frontend", "dist");
 app.use(express.static(buildPath));
 
 // ---- SPA CATCH-ALL (KEEP LAST) ----
