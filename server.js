@@ -51,23 +51,18 @@ app.use(
   })
 );
 
-pp.use((req, res, next) => {
+app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    `
-      default-src 'self';
-      script-src 'self';
-      style-src 'self' https://api.fontshare.com 'unsafe-inline';
-      font-src 'self' https://api.fontshare.com data:;
-      img-src 'self' data:;
-      connect-src 'self' https://api.fontshare.com;
-    `
-      .replace(/\s{2,}/g, " ")
-      .trim()
+    "default-src 'self'; " +
+      "style-src 'self' 'unsafe-inline' https://api.fontshare.com; " +
+      "font-src 'self' https://cdn.fontshare.com; " +
+      "img-src 'self' data:; " +
+      "script-src 'self' 'unsafe-inline';"
   );
-
   next();
 });
+
 
 // ---- API ROUTES ----
 //app.use("/api/sneakers", require("./routes/sneakers"));
