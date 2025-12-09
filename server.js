@@ -54,7 +54,8 @@ app.use("/api/cart", require("./routes/cart"));
 app.use("/api/orders", require("./routes/orders"));
 
 // ---- STATIC VITE BUILD ----
-const buildPath = path.join(__dirname, "react-frontend", "dist");
+const buildPath = path.join(process.cwd(), "react-frontend", "dist");
+
 app.use(express.static(buildPath));
 
 // ---- SPA FALLBACK ----
