@@ -57,8 +57,10 @@ app.use("/api/orders", require("./routes/orders"));
 const buildPath = path.join(process.cwd(), "react-frontend", "dist");
 app.use(express.static(buildPath));
 
-// ---- SPA FALLBACK (Fix for Express 5) ----
-app.get("/*", (req, res) => {
+
+
+// SPA fallback route for all non-API requests
+app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(buildPath, "index.html"));
 });
 
