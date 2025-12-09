@@ -16,6 +16,8 @@ import Navbar from "./components/Navbar";
 import Checkout from "./components/Checkout";
 import SalesPage from './components/SalesPage';
 import SneakerSearch from "./components/SneakerSearch";
+import PopularSneakers from "./components/PopularSneakers";
+
 function App() {
   return (
     <UserProvider>
@@ -35,6 +37,8 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/sell" element={<SalesPage />} />
               <Route path="/sneakers" element={<SneakerSearch />} />
+              <Route path="/popular" element={<PopularSneakers />} />
+
             </Routes>
           </div>
         </Router>

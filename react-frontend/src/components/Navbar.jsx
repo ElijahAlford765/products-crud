@@ -13,6 +13,8 @@ const Navbar = () => {
       <Link to="/products">Products</Link>   |{' '}
       <Link to="/cart">Cart</Link>   |{' '}
       <Link to="/sell">Sell</Link> |{' '}
+      <Link to="/sneakers">Search Sneakers</Link> |{' '}
+      <Link to="/popular">Popular Sneakers</Link> |{' '}
 
       {user ? (
         <>
