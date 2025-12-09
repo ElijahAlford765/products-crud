@@ -15,6 +15,7 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Checkout from "./components/Checkout";
 import SalesPage from './components/SalesPage';
+import SneakerSearch from "./components/SneakerSearch";
 function App() {
   return (
     <UserProvider>
@@ -33,6 +34,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/sell" element={<SalesPage />} />
+              <Route path="/sneakers" element={<SneakerSearch />} />
             </Routes>
           </div>
         </Router>

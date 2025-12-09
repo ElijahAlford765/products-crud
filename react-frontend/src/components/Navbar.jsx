@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import LogoutButton from "../LogoutButton";
+import '../index.css';
 
 const Navbar = () => {
   const { user } = useContext(UserContext);
@@ -16,7 +17,7 @@ const Navbar = () => {
       {user ? (
         <>
           <span className="welcome">Welcome, {user.name || user.username}</span>
-          <LogoutButton />
+         <LogoutButton />
         </>
       ) : (
         <Link to="/login">Login</Link>

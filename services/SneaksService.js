@@ -1,23 +1,33 @@
-"use strict";
+// services/sneaksService.js
 const SneaksAPI = require("sneaks-api");
 const sneaks = new SneaksAPI();
 
-async function getPopularShoes() {
-    return new Promise((resolve, reject) => {
-        sneaks.getMostPopular(20, (err, products) => {
-            if (err) return reject(err);
-            resolve(products);
-        });
+// Search sneakers by keyword
+exports.searchProducts = (keyword, limit = 20) => {
+  return new Promise((resolve, reject) => {
+    sneaks.getProducts(keyword, limit, (err, products) => {
+      if (err) return reject(err);
+      resolve(products);
     });
-}
+  });
+};
 
-async function searchShoes(query) {
-    return new Promise((resolve, reject) => {
-        sneaks.search({ query }, (err, products) => {
-            if (err) return reject(err);
-            resolve(products);
-        });
+// Get product prices by styleID
+exports.getProductPrices = (styleID) => {
+  return new Promise((resolve, reject) => {
+    sneaks.getProductPrices(styleID, (err, product) => {
+      if (err) return reject(err);
+      resolve(product);
     });
-}
+  });
+};
 
-module.exports = { getPopularShoes, searchShoes };
+// Get most popular sneakers
+exports.getMostPopular = (limit = 10) => {
+  return new Promise((resolve, reject) => {
+    sneaks.getMostPopular(limit, (err, products) => {
+      if (err) return reject(err);
+      resolve(products);
+    });
+  });
+};

@@ -48,10 +48,18 @@ export const CartProvider = ({ children }) => {
     console.error(err);
   }
 };
+const clearCart = async () => {
+  try {
+    await Promise.all(cartItems.map(item => CartService.removeCartItem(item.cart_id)));
+    setCartItems([]);
+  } catch (err) {
+    console.error("Failed to clear cart:", err);
+  }
+};
 
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, total }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, total }}>
       {children}
     </CartContext.Provider>
   );

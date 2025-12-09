@@ -77,6 +77,7 @@ function logout(req, res) {
     });
 }
 
+
 // --- GET CURRENT USER ---
 function getMe(req, res) {
     if (!req.session.user) return res.json({ loggedIn: false });

@@ -36,7 +36,7 @@ const Checkout = () => {
       // TODO: Send shippingInfo + cartItems to backend for order processing
     } catch (err) {
       console.error(err);
-      alert(" place order.");
+      alert(" failed place order.");
     }
   };
 

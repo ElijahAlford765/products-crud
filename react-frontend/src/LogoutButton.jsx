@@ -1,20 +1,24 @@
-import axios from "axios";
+// src/LogoutButton.jsx
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
-import { useNavigate } from "react-router-dom";
+import api from "./api";
 
 const LogoutButton = () => {
   const { setUser } = useContext(UserContext);
-  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await axios.post("/api/users/logout", {}, { withCredentials: true });
-    setUser(null);
-    navigate("/login");
+    try {
+      await api.post("/users/logout"); // calls backend
+      setUser(null);                   // clear user in context
+      alert("You have been logged out.");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      alert("Failed to logout. Try again.");
+    }
   };
 
   return (
-    <button onClick={handleLogout} className="logout-btn">
+    <button onClick={handleLogout} style={{ padding: "8px 12px" }}>
       Logout
     </button>
   );

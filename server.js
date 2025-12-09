@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 const pg = require("pg");
 const pgSession = require("connect-pg-simple")(session);
 
+
 dotenv.config();
 
 const app = express();
@@ -50,12 +51,17 @@ app.use(
 );
 
 // ---- API ROUTES ----
+app.use("/api/sneakers", require("./routes/sneakers"));
+
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/reviews", require("./routes/reviews"));
 app.use("/api/wishlist", require("./routes/wishlist"));
-app.use("/api/sneakers", require("./routes/sneaks"));
+
 app.use("/api/cart", require("./routes/cart"));
+app.use("/api/orders", require("./routes/orders"));
+
+
 
 // ---- STATIC REACT BUILD ----
 const buildPath = path.join(__dirname, "react-frontend", "build");

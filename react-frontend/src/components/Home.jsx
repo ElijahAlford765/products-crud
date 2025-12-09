@@ -21,14 +21,14 @@ const Home = () => {
     document.title = 'Home - Products';
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await axios.post("/api/users/logout", {}, { withCredentials: true });
-      setUser(null);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+const handleLogout = async () => {
+  try {
+    await axios.post("http://localhost:3000/api/users/logout", {}, { withCredentials: true });
+    setUser(null);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   if (loading) return <p className="text-center">Loading products...</p>;
   if (!products.length) return <p className="text-center">No products available.</p>;
