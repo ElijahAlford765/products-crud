@@ -1,18 +1,21 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
 import * as sneaksService from "../services/sneaksService.js";
+
+const router = express.Router();
+
 // Search sneakers
 router.get("/search/:query", async (req, res) => {
   try {
-    const products = await SneaksService.searchShoes(req.params.query);
+    const products = await sneaksService.searchShoes(req.params.query);
     res.json(products);
   } catch (err) {
+    console.error("Sneaks API error:", err);
     res.status(500).json({ error: "Sneaks API error" });
   }
 });
 
-// Get sneaker prices/details by styleID
-router.get("/:styleID", async (req, res) => {
+// Get sneaker details/prices by style ID
+router.get("/item/:styleID", async (req, res) => {
   try {
     const product = await sneaksService.getProductPrices(req.params.styleID);
     res.json(product);
@@ -33,4 +36,4 @@ router.get("/popular/list", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

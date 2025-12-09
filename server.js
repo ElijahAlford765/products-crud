@@ -51,7 +51,7 @@ app.use(
 );
 
 // ---- API ROUTES ----
-app.use("/api/sneakers", require("./routes/sneakers"));
+//app.use("/api/sneakers", require("./routes/sneakers"));
 app.use("/api/sneakers",require("./routes/sneaksRoutes"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));

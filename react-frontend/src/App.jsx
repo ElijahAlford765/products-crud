@@ -21,7 +21,7 @@ import PopularSneakers from "./components/PopularSneakers";
 function App() {
   return (
     <UserProvider>
-      <CartProvider> {/* ✅ wrap here */}
+      <CartProvider> {}
         <Router>
           <Navbar />
           <div className="container">
