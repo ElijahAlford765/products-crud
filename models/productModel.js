@@ -22,7 +22,7 @@ async function addProduct(data) {
         type
     } = data;
 
-    const sku = "SKU-" + Date.now();  // ✅ AUTO-GENERATE SKU
+    const sku = "SKU-" + Date.now();  
 
     const result = await pool.query(
         `INSERT INTO products

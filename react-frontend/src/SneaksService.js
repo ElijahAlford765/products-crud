@@ -1,4 +1,4 @@
-// src/services/sneaksService.js
+
 import SneaksAPI from "sneaks-api";
 
 const sneaks = new SneaksAPI();

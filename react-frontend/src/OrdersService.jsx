@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/orders'; // Replace with your backend endpoint
+const API_URL = 'http://localhost:5000/api/orders'; 
 
 const OrdersService = {
   getOrders: () => axios.get(API_URL),

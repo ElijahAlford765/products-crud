@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import OrdersService from '../OrdersService'; // API service for orders
+import OrdersService from '../OrdersService'; 
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

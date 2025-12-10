@@ -21,7 +21,7 @@ async function fetchProductById(req, res) {
     }
 }
 
-// ✅ CREATE product
+
 
 async function createProduct(req, res) {
     try {

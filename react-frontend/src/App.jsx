@@ -1,7 +1,7 @@
 // App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./UserContext";
-import { CartProvider } from "./CartContext"; // ✅ correct import
+import { CartProvider } from "./CartContext"; 
 import "./App.css";
 
 import Home from "./components/Home";

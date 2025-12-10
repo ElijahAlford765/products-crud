@@ -1,4 +1,4 @@
-// src/LogoutButton.jsx
+
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
 import api from "./api";
@@ -8,8 +8,8 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      await api.post("/users/logout"); // calls backend
-      setUser(null);                   // clear user in context
+      await api.post("/users/logout");
+      setUser(null);                
       alert("You have been logged out.");
     } catch (err) {
       console.error("Logout failed:", err);

@@ -40,7 +40,7 @@ const AddProductComponent = () => {
     <div>
       <h2 className="text-center">Add Product</h2>
       <form onSubmit={handleSubmit}>
-        {/** Input fields for all product data */}
+      
         <div className="form-group">
           <label>Name:</label>
           <input type="text" className="form-control" value={name} onChange={e => setName(e.target.value)} required />

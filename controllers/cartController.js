@@ -1,5 +1,5 @@
-// controllers/cartController.js
-const pool = require('../db'); // your Postgres pool
+
+const pool = require('../db'); 
 
 async function addItem(req, res) {
   try {
@@ -11,7 +11,7 @@ async function addItem(req, res) {
 
     const userId = req.session.user.id;
 
-    // Check if item already exists
+ 
     const existing = await pool.query(
       `SELECT * FROM cart WHERE user_id=$1 AND product_id=$2 AND size=$3 AND gender=$4`,
       [userId, productId, selectedSize, selectedGender]

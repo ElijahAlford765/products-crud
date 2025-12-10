@@ -1,9 +1,9 @@
-// src/components/SalesPage.jsx
+
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ProductsService from '../ProductsService';
 import { CartContext } from '../CartContext';
-import { UserContext } from '../UserContext'; // Make sure you have this
+import { UserContext } from '../UserContext'; 
 import axios from "axios";
 import '../index.css';
 
@@ -12,9 +12,9 @@ const SalesPage = () => {
   const [loading, setLoading] = useState(true);
   const [isSellBarOpen, setIsSellBarOpen] = useState(false);
   const { addToCart } = useContext(CartContext);
-  const { user } = useContext(UserContext); // current logged-in user
+  const { user } = useContext(UserContext); 
 
-  // Form state
+
   const [newShoe, setNewShoe] = useState({
     name: "",
     brand: "",
@@ -35,14 +35,14 @@ const SalesPage = () => {
     const shoeData = {
       ...newShoe,
       sizes: newShoe.sizes.split(',').map(s => s.trim()),
-      sellerId: user?.id // associate with logged-in user
+      sellerId: user?.id 
     };
     const res = await ProductsService.addProduct(shoeData);
 
-    // Add new shoe to products state
-    setProducts(prev => [...prev, res.data]); // this triggers myShoes to re-filter automatically
+    
+    setProducts(prev => [...prev, res.data]); 
 
-    // Clear form
+    
     setNewShoe({ name: "", brand: "", sizes: "", description: "", image_url: "", price: "" });
     alert("Shoe added successfully!");
     setIsSellBarOpen(false);
@@ -64,7 +64,7 @@ const SalesPage = () => {
   if (loading) return <p className="text-center">Loading products...</p>;
   if (!products.length) return <p className="text-center">No products available.</p>;
 
-  // Filter only the current user's shoes for Sell Shoes bar
+  
   const myShoes = products.filter(p => p.sellerId === user?.id);
 
   const handleDelete = async (id) => {
@@ -85,7 +85,7 @@ const SalesPage = () => {
     <div className="sales-page">
       <h1 className="text-center">Shop</h1>
 
-      {/* Products Grid */}
+      {}
       <div className="products-grid">
         {products.map(product => {
           const productId = product.id || product._id;
@@ -107,7 +107,7 @@ const SalesPage = () => {
         })}
       </div>
 
-      {/* Slide-up Sell Shoes Bar (Only user’s shoes) */}
+      {}
       <div className={`sell-shoes-bar ${isSellBarOpen ? 'open' : ''}`}>
         <button
           className="toggle-sell-bar-btn"
@@ -118,7 +118,7 @@ const SalesPage = () => {
 
         {isSellBarOpen && (
           <div>
-            {/* Form to add new shoe */}
+            {}
             <form className="sell-shoes-form" onSubmit={handleAddShoe}>
               <input type="text" name="name" value={newShoe.name} onChange={handleChange} placeholder="Shoe Name" required />
               <input type="text" name="brand" value={newShoe.brand} onChange={handleChange} placeholder="Brand" required />
@@ -129,7 +129,7 @@ const SalesPage = () => {
               <button type="submit" className="btn btn-success">Add Shoe</button>
             </form>
 
-            {/* Show current user’s shoes */}
+            {}
             {myShoes.length ? (
   <div className="my-shoes-list">
     <h3>Your Listings</h3>

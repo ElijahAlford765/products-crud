@@ -9,7 +9,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { user, setUser } = useContext(UserContext); // use context only
+  const { user, setUser } = useContext(UserContext); 
   const visibleItems = 3;
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const handleLogout = async () => {
     <div>
       
 
-      {/* Hero Banner */}
+      
       <div className="hero-banner" style={{ textAlign: 'center', margin: '20px 0' }}>
         <h1>Welcome to the StepLab</h1>
         <img 
@@ -47,7 +47,7 @@ const handleLogout = async () => {
         />
       </div>
 
-      {/* Trending Deals Carousel */}
+     
       {products.length > 0 && (
         <>
           <h2 className="text-center" style={{ marginTop: '40px' }}>Trending Deals</h2>
@@ -95,20 +95,3 @@ export default Home;
 
 
 
- /*
-<nav>
-        <Link to="/">Home</Link> |{' '}
-         <Link to="/products">Products</Link> |{' '}
-        <Link to="/cart">Cart</Link> |{' '}
-        <Link to="/admin/products">Admin</Link> |{' '}
-        <Link to="/orders">Orders</Link> |{' '}
-        <Link to="/wishlist">WishList</Link> |{' '}
-        <Link to="/signin">Sign-up/Login</Link>
-      </nav>? 
-       <nav className="navbar">
-        <Link to="/signin">Sign In / Login</Link> |{' '}
-        <Link to="/wishlist">WishList</Link> |{' '}
-        <Link to="/sell">Sell</Link> |{' '}
-        <Link to="/cart">Cart</Link>
-      </nav>
-       */

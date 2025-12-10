@@ -1,24 +1,24 @@
 const pool = require('../models/db');
 
-// --- GET ALL USERS ---
+
 async function getAllUsers() {
     const result = await pool.query("SELECT * FROM users");
     return result.rows;
 }
 
-// --- GET ONE USER BY ID ---
+
 async function getOneUserById(id) {
     const result = await pool.query("SELECT * FROM users WHERE id=$1", [id]);
     return result.rows[0];
 }
 
-// --- DELETE USER ---
+
 async function deleteUser(id) {
     const result = await pool.query("DELETE FROM users WHERE id=$1", [id]);
     return result.rowCount;
 }
 
-// --- GET USER BY EMAIL ---
+
 async function getUserByEmail(email) {
     const result = await pool.query(
         "SELECT * FROM users WHERE LOWER(TRIM(email)) = LOWER(TRIM($1)) LIMIT 1",
@@ -27,7 +27,6 @@ async function getUserByEmail(email) {
     return result.rows[0];
 }
 
-// --- ADD NEW USER ---
 async function addUser({ username, email, password_hash, firstname = null, lastname = null }) {
     const query = `
         INSERT INTO users (username, email, password_hash, firstname, lastname)

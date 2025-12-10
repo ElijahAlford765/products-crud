@@ -11,9 +11,7 @@ const SneakerSearch = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
  const { addToCart } = useContext(CartContext);
-  // -------------------------
-  //  Load Popular Sneakers
-  // -------------------------
+
   useEffect(() => {
     const fetchPopular = async () => {
       setLoading(true);
@@ -36,9 +34,7 @@ const SneakerSearch = () => {
     fetchPopular();
   }, []);
 
-  // -------------------------
-  //  Search Sneakers
-  // -------------------------
+  
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query.trim()) return;
@@ -60,9 +56,7 @@ const SneakerSearch = () => {
     }
   };
 
-  // -------------------------
-  //  Add to Wishlist
-  // -------------------------
+ 
   const addToWishlist = async (styleID) => {
     try {
       await axios.post(
@@ -78,9 +72,7 @@ const SneakerSearch = () => {
     }
   };
 
-  // -------------------------
-  //  Fetch Price Details
-  // -------------------------
+
   const viewPrices = async (styleID) => {
     if (!styleID) {
       alert("Invalid sneaker style ID.");
@@ -96,14 +88,12 @@ const SneakerSearch = () => {
     }
   };
 
-  // -------------------------
-  //  Render Component
-  // -------------------------
+  
   return (
     <div className="sneaker-search-page">
       <h1 className="text-center">Sneaker Search</h1>
 
-      {/* Search Bar */}
+      {}
       <form className="search-bar" onSubmit={handleSearch}>
         <input
           type="text"
@@ -117,18 +107,18 @@ const SneakerSearch = () => {
         </button>
       </form>
 
-      {/* Error Message */}
+      {}
       {errorMsg && <p className="error-text text-center">{errorMsg}</p>}
 
-      {/* Loading Indicator */}
+      {}
       {loading && <p className="text-center">Loading...</p>}
 
-      {/* Results Grid */}
+      {}
       <div className="sneaker-grid">
         {results.map((shoe, index) => {
           const styleID = shoe.styleID;
 
-          if (!styleID) return null; // Prevent invalid items
+          if (!styleID) return null; 
 
           return (
             <div className="sneaker-card" key={index}>
@@ -152,10 +142,10 @@ const SneakerSearch = () => {
   className="add-to-cart-btn"
   onClick={() =>
     addToCart({
-      productId: styleID,                      // required
-      selectedSize: "N/A",                     // required
-      selectedGender: "Unisex",                // required
-      quantity: 1                               // required
+      productId: styleID,                     
+      selectedSize: "N/A",                    
+      selectedGender: "Unisex",               
+      quantity: 1                               
     })
   }
 >
@@ -169,7 +159,7 @@ const SneakerSearch = () => {
         })}
       </div>
 
-      {/* Empty State */}
+      {}
       {results.length === 0 && !loading && (
         <p className="text-center">No sneakers found.</p>
       )}

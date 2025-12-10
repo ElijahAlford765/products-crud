@@ -5,7 +5,7 @@ const REVIEWS_URL = "http://localhost:3000/api/reviews";
 
 class ProductsService {
   getProducts() {
-    return axios.get(API_URL); // GET /api/products
+    return axios.get(API_URL); 
   }
 
   getProductById(id) {
@@ -24,7 +24,7 @@ class ProductsService {
     return axios.delete(`${API_URL}/${id}`);
   }
 
-  // Reviews
+  
   getReviewsByProductId(id) {
     return axios.get(`${REVIEWS_URL}/${id}`);
   }

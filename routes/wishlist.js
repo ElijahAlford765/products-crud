@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db"); // your Postgres pool
+const pool = require("../db"); 
 
-// GET wishlist for logged-in user
+
 router.get("/", async (req, res) => {
   try {
     if (!req.session.user) return res.status(401).json({ message: "Not logged in" });
@@ -20,14 +20,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST add sneaker to wishlist
+
 router.post("/", async (req, res) => {
   try {
     if (!req.session.user) return res.status(401).json({ message: "Not logged in" });
     const userId = req.session.user.id;
     const { productId } = req.body;
 
-    // Check if already in wishlist
+   
     const exists = await pool.query(
       `SELECT * FROM wishlist WHERE user_id=$1 AND product_id=$2`,
       [userId, productId]

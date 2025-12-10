@@ -1,4 +1,4 @@
-// src/components/ProductDetailsComponent.jsx
+
 import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ProductsService from '../ProductsService';
@@ -21,7 +21,7 @@ const ProductDetailsComponent = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
 
-  // Fetch product and reviews
+
   useEffect(() => {
     ProductsService.getProductById(id)
       .then(res => setProduct(res.data))
@@ -84,7 +84,7 @@ const ProductDetailsComponent = () => {
         <p>Price: ${product.price}</p>
         <p>Description: {product.description}</p>
 
-        {/* Gender Selector */}
+        {}
         <h4>Select Gender</h4>
         <div className="gender-buttons">
           {["Men", "Women"].map(gender => (
@@ -98,7 +98,7 @@ const ProductDetailsComponent = () => {
           ))}
         </div>
 
-        {/* Size Selector */}
+        {}
         <h4>Choose Size</h4>
         <div className="size-buttons">
           {product.sizes?.map(size => (
@@ -114,7 +114,7 @@ const ProductDetailsComponent = () => {
 
         <p>Selected: <b>{selectedGender || "None"} : {selectedSize || "None"}</b></p>
 
-        {/* Add to Cart */}
+        {}
         <button
           className={`btn btn-success ${!selectedSize || !selectedGender ? "btn-disabled" : ""}`}
           disabled={!selectedSize || !selectedGender}
@@ -129,17 +129,17 @@ const ProductDetailsComponent = () => {
         </button>
       </div>
 
-      {/* Reviews Section */}
+      {}
      <div className="review-section mt-4">
   <h3>Reviews</h3>
 
-  {/* Existing Reviews */}
+  {}
   {reviews.length ? (
     reviews.map(rev => (
       <div key={rev.id || rev._id} className="review-card">
         <strong>{rev.username}</strong> - <em>{rev.rating} / 5</em>
         <p>{rev.comment}</p>
-        {/* Show delete button if current user wrote this review */}
+        {}
         {user && rev.user_id === user.id && (
           <button
             className="btn btn-sm btn-danger"
@@ -154,7 +154,7 @@ const ProductDetailsComponent = () => {
     <p>No reviews yet.</p>
   )}
 
-  {/* Add Review Form */}
+  
   {user && (
     <form className="add-review-form mt-3" onSubmit={handleAddReview}>
       <label>

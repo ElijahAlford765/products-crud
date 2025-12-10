@@ -1,15 +1,10 @@
-/* ================================
-   GLOBAL STYLES
-================================ */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: #000;
   background-color: #f5f5f5;
-
   -webkit-font-smoothing: antialiased;
 }
 
@@ -51,9 +46,6 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-/* ================================
-   NAVBAR
-================================ */
 ul.navbar {
   list-style-type: none;
   padding: 0;
@@ -72,7 +64,6 @@ ul.navbar li a:hover {
   background-color: #111;
 }
 
-/* logout */
 .logout-btn {
   background: #d9534f;
   color: white;
@@ -85,9 +76,6 @@ ul.navbar li a:hover {
   background: #c9302c;
 }
 
-/* ================================
-   PRODUCTS GRID & CARD
-================================ */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -102,7 +90,6 @@ ul.navbar li a:hover {
   padding: 15px;
   text-align: center;
   transition: 0.2s;
-     
 }
 
 .product-card:hover {
@@ -138,9 +125,6 @@ ul.navbar li a:hover {
   text-overflow: ellipsis;
 }
 
-/* ================================
-   SALES PAGE
-================================ */
 .sales-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -156,11 +140,6 @@ ul.navbar li a:hover {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
-/* ================================
-   MODERN SELL SHOES SLIDE-UP PANEL
-================================ */
-
-/* Slide button */
 .sell-toggle-btn {
   width: 100%;
   background: #111;
@@ -181,10 +160,9 @@ ul.navbar li a:hover {
   background: #222;
 }
 
-/* Slide-up panel container */
 .sell-panel {
   position: fixed;
-  bottom: -450px; /* hidden by default */
+  bottom: -450px;
   left: 0;
   width: 100%;
   background: rgba(255,255,255,0.88);
@@ -196,12 +174,10 @@ ul.navbar li a:hover {
   z-index: 1000;
 }
 
-/* When opened */
 .sell-panel.open {
   bottom: 0;
 }
 
-/* Panel Header */
 .sell-panel h2 {
   margin: 0 0 18px 0;
   font-size: 24px;
@@ -209,7 +185,6 @@ ul.navbar li a:hover {
   color: #111;
 }
 
-/* Input styles */
 .sell-panel input,
 .sell-panel textarea {
   width: 100%;
@@ -228,7 +203,6 @@ ul.navbar li a:hover {
   background: #fff;
 }
 
-/* Sell button */
 .sell-panel button {
   padding: 14px;
   background: #111;
@@ -244,7 +218,6 @@ ul.navbar li a:hover {
   background: #333;
 }
 
-/* Close button */
 .close-sell-panel {
   background: none;
   border: none;
@@ -261,10 +234,6 @@ ul.navbar li a:hover {
   color: #111;
 }
 
-
-/* ================================
-   PRODUCT DETAILS PAGE — Gender/Size
-================================ */
 .gender-buttons,
 .size-buttons {
   display: flex;
@@ -294,22 +263,17 @@ ul.navbar li a:hover {
   font-size: 18px;
 }
 
-/* Active state */
 .gender-btn.active,
 .size-btn.active {
   background: #007bff;
   color: white;
 }
 
-/* Disabled state */
 .btn-disabled {
   background: #ccc !important;
   cursor: not-allowed !important;
 }
 
-/* ================================
-   CART PAGE
-================================ */
 .cart-container {
   max-width: 900px;
   margin: 20px auto;
@@ -376,9 +340,6 @@ ul.navbar li a:hover {
   background: #218838;
 }
 
-/* ================================
-   CHECKOUT PAGE
-================================ */
 .checkout-container {
   max-width: 600px;
   margin: 40px auto;
@@ -422,9 +383,6 @@ ul.navbar li a:hover {
   background: #222;
 }
 
-/* ================================
-   AUTH FORMS
-================================ */
 .auth-container,
 .form-container {
   max-width: 400px;
@@ -455,9 +413,6 @@ ul.navbar li a:hover {
   cursor: pointer;
 }
 
-/* ================================
-   TABLES
-================================ */
 table,
 th,
 td {
@@ -473,9 +428,6 @@ tr:hover {
   background: #d6ebff;
 }
 
-/* ================================
-   IMAGE CARD HOLDER
-================================ */
 .card-holder {
   width: 400px;
   background: #f0f0f0;
@@ -494,7 +446,6 @@ tr:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* Sneaker Search Page */
 .sneaker-search-page {
   max-width: 1100px;
   margin: auto;
@@ -529,7 +480,6 @@ tr:hover {
   background: #333;
 }
 
-/* Sneaker Grid */
 .sneaker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -582,124 +532,13 @@ tr:hover {
 .price-btn:hover {
   background: #0056b3;
 }
-/* Sneaker Search Page */
-.sneaker-search-page {
-  width: 100%;
-  max-width: 1100px;
-  margin: 50px auto;
-  padding: 20px;
-  color: #fff;
-}
 
-/* Search Bar */
-.search-bar {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.search-bar input {
-  width: 320px;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-.search-bar button {
-  background: #333;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.25s;
-}
-
-.search-bar button:hover {
-  background: #555;
-}
-
-/* Grid */
-.sneaker-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 25px;
-}
-
-/* Cards */
-.sneaker-card {
-  background: white;
-  color: black;
-  border-radius: 12px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-  transition: transform 0.25s;
-}
-
-.sneaker-card:hover {
-  transform: scale(1.03);
-}
-
-.sneaker-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: contain;
-}
-
-/* Card actions */
-.card-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-}
-
-.price-btn,
-.wishlist-btn {
-  flex: 1;
-  margin: 5px;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.price-btn {
-  background: #000;
-  color: white;
-}
-
-.price-btn:hover {
-  background: #444;
-}
-
-.wishlist-btn {
-  background: #ff3b3b;
-  color: white;
-}
-
-.wishlist-btn:hover {
-  background: #d62c2c;
-}
-
-/* Wishlist popup message */
-.wishlist-msg {
-  text-align: center;
-  color: #00ff88;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: bold;
-}
-/* index.css */
 .navbar {
   padding: 10px;
   border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
-  gap: 15px; /* space between links */
+  gap: 15px;
 }
 
 .navbar a {
@@ -712,13 +551,15 @@ tr:hover {
 }
 
 .welcome {
-  margin-left: auto; /* push welcome text to the right */
+  margin-left: auto;
   font-weight: bold;
 }
 
-/* Container for user's listings */
 .my-shoes-list {
   margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .my-shoes-list h3 {
@@ -726,17 +567,9 @@ tr:hover {
   margin-bottom: 10px;
 }
 
-/* Make cards line up side-by-side */
-.my-shoes-list {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;         /* allows multiple rows if needed */
-}
-
-/* Smaller cards */
 .my-shoe-card,
 .my-shoes-list .product-card {
-  width: 140px;            /* smaller width */
+  width: 140px;
   padding: 8px;
   border-radius: 8px;
   background: white;
@@ -744,15 +577,13 @@ tr:hover {
   text-align: center;
 }
 
-/* Smaller images */
 .my-shoes-list .product-card img {
   width: 150%;
-  height: 150px;           /* smaller image */
+  height: 150px;
   object-fit: cover;
   border-radius: 6px;
 }
 
-/* Smaller text */
 .my-shoes-list .product-card .product-name {
   font-size: 13px;
   font-weight: 600;
@@ -769,17 +600,16 @@ tr:hover {
   font-size: 11px;
   color: #666;
 }
-/* Reviews container */
+
 .review-section {
   margin-top: 2rem;
 }
 
-/* Each review card */
 .review-card {
-  border: 1px solid #ccc;      /* light gray border */
-  border-radius: 8px;           /* rounded corners */
-  padding: 1rem;                /* space inside the box */
-  margin-bottom: 1rem;          /* space between reviews */
-  background-color: #f9f9f9;    /* subtle background */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* soft shadow */
+  border: 1px solid #ccc;      
+  border-radius: 8px;          
+  padding: 1rem;               
+  margin-bottom: 1rem;          
+  background-color: #f9f9f9;   
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }

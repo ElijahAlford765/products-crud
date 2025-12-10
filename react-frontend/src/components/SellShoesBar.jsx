@@ -4,7 +4,7 @@ import CartService from '../CartService';
 import { Link } from 'react-router-dom';
 import '../index.css';
 
-// --- Sell Shoes Bar Component ---
+
 const SellShoesBar = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -37,7 +37,7 @@ const SellShoesBar = () => {
   );
 };
 
-// --- Main Products List Component ---
+
 const ProductsListComponent = () => {
   const [products, setProducts] = useState([]);
 
@@ -88,7 +88,7 @@ const ProductsListComponent = () => {
         })}
       </div>
 
-      {/* Include the Sell Shoes Bar at the bottom */}
+      {}
       <SellShoesBar />
     </div>
   );

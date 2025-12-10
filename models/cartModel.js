@@ -1,4 +1,4 @@
-// models/cartModel.js
+
 "use strict";
 const pool = require('./db');
 

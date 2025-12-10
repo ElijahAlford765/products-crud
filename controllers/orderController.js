@@ -1,15 +1,15 @@
 "use strict";
-const pool = require("../db"); // your Postgres pool
+const pool = require("../db"); 
 
-// Place an order
+
 async function placeOrder(req, res) {
   try {
-    // 1️⃣ Check if user is logged in
+    
     if (!req.session.user) return res.status(401).json({ message: "Not logged in" });
 
     const userId = req.session.user.id;
 
-    // 2️⃣ Get the user's cart
+    
     const cartResult = await pool.query(
       `SELECT c.id AS cart_id, c.product_id, c.size, c.gender, c.quantity, p.name, p.price
        FROM cart c
@@ -21,10 +21,10 @@ async function placeOrder(req, res) {
     const cartItems = cartResult.rows;
     if (cartItems.length === 0) return res.status(400).json({ message: "Cart is empty" });
 
-    // 3️⃣ Calculate total price
+   
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    // 4️⃣ Insert order
+    
     const orderResult = await pool.query(
       `INSERT INTO orders (user_id, total_amount, status)
        VALUES ($1, $2, 'pending') RETURNING *`,
@@ -32,7 +32,7 @@ async function placeOrder(req, res) {
     );
     const order = orderResult.rows[0];
 
-    // 5️⃣ Insert order_items
+   
     for (const item of cartItems) {
       await pool.query(
         `INSERT INTO order_items (order_id, product_id, size, gender, quantity, price)
@@ -41,7 +41,7 @@ async function placeOrder(req, res) {
       );
     }
 
-    // 6️⃣ Clear the user's cart
+  
     await pool.query(`DELETE FROM cart WHERE user_id=$1`, [userId]);
 
     res.json({ success: true, message: "Order placed", orderId: order.id, total, items: cartItems });
@@ -51,7 +51,7 @@ async function placeOrder(req, res) {
   }
 }
 
-// Get current user's orders
+
 async function getOrders(req, res) {
   try {
     if (!req.session.user) return res.status(401).json({ message: "Not logged in" });

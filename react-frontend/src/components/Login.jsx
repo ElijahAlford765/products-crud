@@ -4,16 +4,16 @@ import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 import "../index.css";
 const API_URL = "http://localhost:3000/api/users";
-axios.defaults.withCredentials = true; // important for session cookies
+axios.defaults.withCredentials = true; 
 
 const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const [mode, setMode] = useState("login"); // "login" or "signup"
+  const [mode, setMode] = useState("login");
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
 
-  // Redirect if already logged in
+  
   useEffect(() => {
     if (user) navigate("/");
   }, [user, navigate]);
@@ -22,7 +22,7 @@ const Login = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // LOGIN
+
 const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -38,7 +38,7 @@ const handleLogin = async (e) => {
     }
 };
 
-// SIGNUP
+
 const handleSignup = async (e) => {
     e.preventDefault();
     setError("");

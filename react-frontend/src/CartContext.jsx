@@ -7,15 +7,15 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
 
-  // Fetch cart items from API
+ 
   const fetchCart = async () => {
     try {
       const res = await CartService.getCartItems();
-      // Ensure cartItems is always an array
+      
       setCartItems(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Failed to fetch cart:", err);
-      setCartItems([]); // fallback to empty array
+      setCartItems([]); 
     }
   };
 
@@ -23,7 +23,7 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   }, []);
 
-  // Calculate total safely
+  
   useEffect(() => {
     setTotal(
       Array.isArray(cartItems)
@@ -32,18 +32,18 @@ export const CartProvider = ({ children }) => {
     );
   }, [cartItems]);
 
-  // Add product to cart
+  
   const addToCart = async (product) => {
     try {
       const res = await CartService.addToCart(product);
-      await fetchCart(); // refresh cart state
+      await fetchCart(); 
       alert(res.data.message);
     } catch (err) {
       console.error("Failed to add to cart:", err);
     }
   };
 
-  // Remove product from cart
+ 
   const removeFromCart = async (id) => {
     try {
       await CartService.removeCartItem(id);
@@ -53,7 +53,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Update product quantity
+ 
   const updateQuantity = async (id, quantity) => {
     try {
       setCartItems(prev =>
@@ -67,7 +67,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Clear entire cart
+ 
   const clearCart = async () => {
     try {
       if (Array.isArray(cartItems)) {

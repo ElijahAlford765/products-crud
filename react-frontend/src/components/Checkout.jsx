@@ -19,7 +19,7 @@ const Checkout = () => {
   };
 
   const handleCheckout = async () => {
-    // Validate shipping info
+   
     for (const field in shippingInfo) {
       if (!shippingInfo[field].trim()) {
         return alert(`Please fill in ${field}`);
@@ -29,11 +29,11 @@ const Checkout = () => {
     if (!cartItems.length) return alert("Cart is empty!");
 
     try {
-      await clearCart(); // Clears backend cart too
+      await clearCart(); 
       alert(
         `Order placed successfully!\nShipping to: ${shippingInfo.name}, ${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}`
       );
-      // TODO: Send shippingInfo + cartItems to backend for order processing
+      
     } catch (err) {
       console.error(err);
       alert(" failed place order.");

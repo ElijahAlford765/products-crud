@@ -1,7 +1,7 @@
 const model = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 
-// --- REGISTER ---
+
 async function register(req, res) {
     const { username, firstname, lastname, email, password } = req.body;
 
@@ -16,7 +16,7 @@ async function register(req, res) {
 
         const hashed = await bcrypt.hash(password, 10);
 
-        // Build username automatically if not provided
+       
         let finalUsername = username;
         if (!finalUsername) {
             finalUsername = (firstname + lastname).toLowerCase().replace(/\s+/g, "") + Math.floor(Math.random() * 10000);
@@ -43,7 +43,7 @@ async function register(req, res) {
     }
 }
 
-// --- LOGIN ---
+
 async function login(req, res) {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).send("Missing email or password.");
@@ -69,7 +69,6 @@ async function login(req, res) {
     }
 }
 
-// --- LOGOUT ---
 function logout(req, res) {
     req.session.destroy(() => {
         res.clearCookie("connect.sid");
@@ -78,13 +77,13 @@ function logout(req, res) {
 }
 
 
-// --- GET CURRENT USER ---
+
 function getMe(req, res) {
     if (!req.session.user) return res.json({ loggedIn: false });
     res.json({ loggedIn: true, user: req.session.user });
 }
 
-// Optional CRUD
+
 async function fetchAllUsers(req, res) {
     try {
         const users = await model.getAllUsers();
