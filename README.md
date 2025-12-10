@@ -59,3 +59,8 @@ External API: Sneaks API (https://github.com/druv5319/Sneaks-API)
 Wireframes or Sketches 
 
 https://www.figma.com/board/jONsLeoygMJVgI00UeBrjd/Untitled?node-id=0-1&t=iP9pfEBiqTTPMGJ9-1 
+
+Design Choices: Why you chose your frontend framework, backend structure, and database schema becuase that what use shown in class and that im most comfulbem with 
+Challenges: get=ting the external api to work but also rem=nder.com
+Learning Outcomes: What i  learned about full-stack development and deployment that thers alot that comes with it but you can really bring your ideas to life. 
+Future Work: would rine the UI and Render feature 
