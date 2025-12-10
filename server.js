@@ -28,18 +28,17 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 }));
-// Instead of app.get("/*", ...)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
-// Example API route
+// API Routes
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-// Catch-all route to serve React index.html (fixed)
-app.get("/*", (req, res) => {
+// Serve React static files
+app.use(express.static(path.join(__dirname, "react-frontend", "dist")));
+
+// Catch-all route for React (must come after API routes)
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, "react-frontend", "dist", "index.html"));
 });
 
