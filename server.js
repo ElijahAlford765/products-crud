@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
@@ -8,42 +7,29 @@ require("dotenv").config();
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173",
-  credentials: true
-}));
-
+app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session setup
+// Session
 app.use(session({
   name: "sessionId",
   secret: process.env.SESSION_SECRET || "supersecretkey",
   resave: false,
   saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
-  }
+  cookie: { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 86400000 }
 }));
 
-// API Routes
-app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
+// API route
+app.get("/api/hello", (req, res) => res.json({ message: "Hello from server!" }));
 
-// Serve React static files
-app.use(express.static(path.join(__dirname, "react-frontend", "dist")));
+// Serve React
+const reactDist = path.join(__dirname, "react-frontend", "dist");
+app.use(express.static(reactDist));
 
-// Catch-all route for React (must come after API routes)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, "react-frontend", "dist", "index.html"));
-});
+// Catch-all
+app.get("*", (req, res) => res.sendFile(path.join(reactDist, "index.html")));
 
 // Start server
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
