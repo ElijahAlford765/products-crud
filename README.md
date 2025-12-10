@@ -60,7 +60,6 @@ Wireframes or Sketches
 
 https://www.figma.com/board/jONsLeoygMJVgI00UeBrjd/Untitled?node-id=0-1&t=iP9pfEBiqTTPMGJ9-1 
 
-Design Choices: Why you chose your frontend framework, backend structure, and database schema becuase that what use shown in class and that im most comfulbem with 
-Challenges: get=ting the external api to work but also rem=nder.com
-Learning Outcomes: What i  learned about full-stack development and deployment that thers alot that comes with it but you can really bring your ideas to life. 
+Design Decisions: I choose my frontend framework, backend structure, and database schema since they are what we used in class and I feel most comfortable with them. Difficulties: not just getting the external API to function, but also rem=nder.com
+Learning Outcomes: I discovered that full-stack development and deployment come with many challenges, yet you can truly realize your ideas. 
 Future Work: would rine the UI and Render feature 
