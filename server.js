@@ -9,14 +9,14 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173", // your frontend URL
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session setup (MemoryStore not ideal for prod, but okay for demo)
+// Session setup
 app.use(session({
   name: "sessionId",
   secret: process.env.SESSION_SECRET || "supersecretkey",
@@ -29,7 +29,7 @@ app.use(session({
   }
 }));
 
-// Serve frontend
+// Serve React frontend
 app.use(express.static(path.join(__dirname, "react-frontend", "dist")));
 
 // Example API route
@@ -37,7 +37,7 @@ app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-// Catch-all route (fixed for Express 5+)
+// Catch-all route to serve React index.html (fixed)
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "react-frontend", "dist", "index.html"));
 });
