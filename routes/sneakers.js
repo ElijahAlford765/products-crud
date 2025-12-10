@@ -1,39 +1,48 @@
-import express from "express";
-import * as sneaksService from "../services/sneaksService.js";
+"use strict";
 
+const express = require("express");
 const router = express.Router();
+const pool = require("../db"); // Neon DB connection
 
-// Search sneakers
+// Search sneakers by name
 router.get("/search/:query", async (req, res) => {
   try {
-    const products = await sneaksService.searchShoes(req.params.query);
-    res.json(products);
+    const result = await pool.query(
+      "SELECT * FROM products WHERE name ILIKE $1",
+      [`%${req.params.query}%`]
+    );
+    res.json(result.rows);
   } catch (err) {
-    console.error("Sneaks API error:", err);
-    res.status(500).json({ error: "Sneaks API error" });
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
   }
 });
 
-// Get sneaker details/prices by style ID
-router.get("/item/:styleID", async (req, res) => {
+// Get sneaker prices/details by styleID
+router.get("/product/:styleID", async (req, res) => {
   try {
-    const product = await sneaksService.getProductPrices(req.params.styleID);
-    res.json(product);
+    const result = await pool.query(
+      "SELECT * FROM products WHERE id=$1",
+      [req.params.styleID]
+    );
+    res.json(result.rows[0]);
   } catch (err) {
-    console.error("Sneaks API error:", err);
-    res.status(500).json({ error: "Sneaks API error" });
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
   }
 });
 
 // Get most popular sneakers
 router.get("/popular/list", async (req, res) => {
   try {
-    const popular = await sneaksService.getMostPopular(10);
-    res.json(popular);
+    const result = await pool.query(
+      "SELECT * FROM products ORDER BY popularity DESC LIMIT 10"
+    );
+    res.json(result.rows);
   } catch (err) {
-    console.error("Sneaks API error:", err);
-    res.status(500).json({ error: "Sneaks API error" });
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
   }
 });
 
-export default router;
+module.exports = router;

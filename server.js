@@ -2,34 +2,48 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const path = require("path");
-require("dotenv").config();
 
 const app = express();
+const PORT = 3000;
 
 // Middleware
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Session
-app.use(session({
-  name: "sessionId",
-  secret: process.env.SESSION_SECRET || "supersecretkey",
-  resave: false,
-  saveUninitialized: false,
-  cookie: { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 86400000 }
-}));
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // secure: true if HTTPS
+  })
+);
 
-// API route
-app.get("/api/hello", (req, res) => res.json({ message: "Hello from server!" }));
+// Routes
+const productRoutes = require("./routes/productRoutes"); // productRoutes.js
+const cartRoutes = require("./routes/cart");             // cart.js
+const userRoutes = require("./routes/userRoutes");       // userRoutes.js
+const orderRoutes = require("./routes/orders");          // orders.js
+const reviewsRoutes = require("./routes/reviews");       // reviews.js
+const wishlistRoutes = require("./routes/wishlist");     // wishlist.js
+const sneaksRoutes = require("./routes/sneaksRoutes");   // sneaksRoutes.js
 
-// Serve React
-const reactDist = path.join(__dirname, "react-frontend", "dist");
-app.use(express.static(reactDist));
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/reviews", reviewsRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/sneaks", sneaksRoutes);
 
-// Catch-all
-app.get("*", (req, res) => res.sendFile(path.join(reactDist, "index.html")));
+// Default route
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
 
 // Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

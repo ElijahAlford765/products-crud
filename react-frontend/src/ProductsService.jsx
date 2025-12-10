@@ -5,40 +5,36 @@ const REVIEWS_URL = "http://localhost:3000/api/reviews";
 
 class ProductsService {
   getProducts() {
-    return axios.get(`${API_URL}/`);
-  }
-
-  createProduct(product) {
-    return axios.post(`${API_URL}/`, product);
+    return axios.get(API_URL); // GET /api/products
   }
 
   getProductById(id) {
     return axios.get(`${API_URL}/${id}`);
   }
 
+  createProduct(product) {
+    return axios.post(API_URL, product);
+  }
+
+  updateProduct(id, data) {
+    return axios.put(`${API_URL}/${id}`, data);
+  }
+
   deleteProduct(id) {
     return axios.delete(`${API_URL}/${id}`);
   }
 
-updateProduct(id, data) {
-    return axios.put(`${API_URL}/${id}`, data, { withCredentials: true });
-
-}
-addProduct(productData) {
-    return axios.post(API_URL, productData, { withCredentials: true });
-  }
-
-  // --- Add Reviews API calls ---
+  // Reviews
   getReviewsByProductId(id) {
-    return axios.get(`http://localhost:3000/api/reviews/${id}`);
+    return axios.get(`${REVIEWS_URL}/${id}`);
   }
 
   addReview(reviewData) {
-    return axios.post(`http://localhost:3000/api/reviews/`, reviewData);
+    return axios.post(REVIEWS_URL, reviewData);
   }
 
-  deleteReview(reviewId) {
-    return axios.delete(`http://localhost:3000/api/reviews/${reviewId}`);
+  deleteReview(id) {
+    return axios.delete(`${REVIEWS_URL}/${id}`);
   }
 }
 

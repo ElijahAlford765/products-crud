@@ -5,21 +5,13 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // optional loading state
+  const [loading, setLoading] = useState(true);
 
-  // Check session on app load
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/users/me", {
-          withCredentials: true, // send cookies for session
-        });
-
-        if (res.data.loggedIn) {
-          setUser(res.data.user);
-        } else {
-          setUser(null);
-        }
+        const res = await axios.get("http://localhost:3000/api/users/me", { withCredentials: true });
+        setUser(res.data.loggedIn ? res.data.user : null);
       } catch (err) {
         console.error("Session check error:", err);
         setUser(null);
@@ -27,25 +19,18 @@ export const UserProvider = ({ children }) => {
         setLoading(false);
       }
     };
-
     checkSession();
   }, []);
 
-  // Logout function
   const logout = async () => {
     try {
-      await axios.post(
-        "http://localhost:3000/api/users/logout",
-        {},
-        { withCredentials: true }
-      );
-      setUser(null); // clear user state after logout
+      await axios.post("http://localhost:3000/api/users/logout", {}, { withCredentials: true });
+      setUser(null);
     } catch (err) {
       console.error("Logout failed:", err);
     }
   };
 
-  // Context value includes user, setUser, logout, and optional loading
   return (
     <UserContext.Provider value={{ user, setUser, logout, loading }}>
       {children}
