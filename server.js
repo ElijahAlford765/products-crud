@@ -5,22 +5,21 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
 
-// Initialize Express
 const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  origin: process.env.CLIENT_URL || "http://localhost:5173", // your frontend URL
   credentials: true
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Express session setup
+// Session setup (MemoryStore not ideal for prod, but okay for demo)
 app.use(session({
   name: "sessionId",
-  secret: process.env.SESSION_SECRET || "supersecretkey", // Must have a secret!
+  secret: process.env.SESSION_SECRET || "supersecretkey",
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -30,7 +29,7 @@ app.use(session({
   }
 }));
 
-// Serve React frontend (make sure your build folder is correct)
+// Serve frontend
 app.use(express.static(path.join(__dirname, "react-frontend", "dist")));
 
 // Example API route
@@ -38,8 +37,8 @@ app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-// Catch-all route to serve React SPA
-app.get("*", (req, res) => {
+// Catch-all route (fixed for Express 5+)
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "react-frontend", "dist", "index.html"));
 });
 
