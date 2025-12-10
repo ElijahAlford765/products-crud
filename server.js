@@ -28,9 +28,10 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 }));
-
-// Serve React frontend
-app.use(express.static(path.join(__dirname, "react-frontend", "dist")));
+// Instead of app.get("/*", ...)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Example API route
 app.get("/api/hello", (req, res) => {
