@@ -36,7 +36,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/wishlist", wishlistRoutes);
-app.use("/api/sneaks", sneaksRoutes);
+app.use("/api/sneakers", sneaksRoutes);
+
 
 // Default route
 app.get("/", (req, res) => {

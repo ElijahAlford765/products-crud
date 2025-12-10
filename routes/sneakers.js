@@ -2,47 +2,38 @@
 
 const express = require("express");
 const router = express.Router();
-const pool = require("../db"); // Neon DB connection
+const SneaksAPI = require("sneaks-api");
 
-// Search sneakers by name
-router.get("/search/:query", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT * FROM products WHERE name ILIKE $1",
-      [`%${req.params.query}%`]
-    );
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
-  }
+const sneaks = new SneaksAPI();
+
+// ----------------------------
+//  GET MOST POPULAR sneakers
+// ----------------------------
+router.get("/popular/list", (req, res) => {
+  sneaks.getMostPopular(10, (err, products) => {
+    if (err) return res.status(500).json({ error: "Sneaks API error" });
+    res.json(products);
+  });
 });
 
-// Get sneaker prices/details by styleID
-router.get("/product/:styleID", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT * FROM products WHERE id=$1",
-      [req.params.styleID]
-    );
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
-  }
+// ----------------------------
+//  SEARCH sneakers
+// ----------------------------
+router.get("/search/:query", (req, res) => {
+  sneaks.getProducts(req.params.query, (err, products) => {
+    if (err) return res.status(500).json({ error: "Sneaks API error" });
+    res.json(products);
+  });
 });
 
-// Get most popular sneakers
-router.get("/popular/list", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT * FROM products ORDER BY popularity DESC LIMIT 10"
-    );
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
-  }
+// ----------------------------
+//  GET PRICE / DETAILS by styleID
+// ----------------------------
+router.get("/:styleID", (req, res) => {
+  sneaks.getProductPrices(req.params.styleID, (err, product) => {
+    if (err) return res.status(500).json({ error: "Sneaks API error" });
+    res.json(product);
+  });
 });
 
 module.exports = router;
